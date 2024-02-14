@@ -19,7 +19,7 @@ YAML is a human-readable data serialization standard that can be used with all p
 Data serialization is the process of converting complex data structures or objects into a format that can be easily stored, transmitted, or reconstructed at a later time. This format is often a string of bytes that can be written to a file or sent over a network. Serialization allows data to be transmitted and reconstructed in a different environment or programming language. A data serialization standard, such as YAML, defines a specific format and rules for how data should be serialized and deserialized. It provides a consistent way to represent complex data structures, making it easier for different systems to communicate and share data. In the context of YAML, it provides a standard way to represent data structures in a human-readable format, making it easy for developers to work with configuration files and exchange data between different systems.
 
 --------
-##what is a Dockerfile
+## what is a Dockerfile
 
 A Dockerfile is a text document that contains a set of instructions for building a Docker image. It defines the environment inside the container, including the base image to use, the working directory, the commands to run, and other configuration settings. The Dockerfile plays a crucial role in the process of creating reproducible and portable Docker images.
 
