@@ -1,0 +1,17 @@
+FROM debian:12.5
+
+RUN apt-get update &&  apt-get upgrade -y && \
+    apt-get install -y nginx && \
+    apt-get install -y vim curl openssl
+
+RUN mkdir -p /var/run/nginx
+
+COPY default.conf /etc/nginx/default.conf
+COPY index.html /var/www/html
+RUN chmod 755 /var/www/html  && \
+    chown -R www-data:www-data /var/www/html
+
+EXPOSE 443
+EXPOSE 80
+ # Start NGINX
+CMD ["nginx", "-g", "daemon off;"]
