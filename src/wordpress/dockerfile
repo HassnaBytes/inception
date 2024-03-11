@@ -1,36 +1,17 @@
 FROM debian:buster
 
-RUN apt-get update && \
-    apt-get install -y curl \
-                       wget \
-                       tar \
-                       sudo \
-                       php7.3-fpm \
-                       php7.3-mysql \
-                       php7.3-mbstring \
-                       php7.3-xml \
-                       php7.3-curl \
-                       php7.3-gd \
-                       php7.3-imagick \
-                       php7.3-zip \
-                       php7.3-intl \
-                       unzip \
-                       mariadb-client
-COPY script.sh /etc/
-RUN chmod +x /etc/script.sh
+RUN apt -y update && apt -y upgrade
+RUN apt install -y  wget \
+                    vim \
+                    php-fpm \
+                    php-mysql \
+					sendmail \
+                    mariadb-client
 
-RUN mkdir -p /var/www/html
-
-RUN wget -O wordpress.tar.gz https://wordpress.org/latest.tar.gz && \
-    tar -xzf wordpress.tar.gz -C /var/www/html && \
-    rm wordpress.tar.gz && \
-    chown -R www-data:www-data /var/www/html && \
-    chmod -R 755 /var/www/html
-# Create directory for MySQL socket file and set permissions
+COPY wordpress.sh /usr/local/bin/wordpress.sh
+RUN chmod +x  /usr/local/bin/wordpress.sh
 
 
-# Expose MySQL port
-EXPOSE 9000
 
-ENTRYPOINT ["sh","/etc/script.sh"]
+ENTRYPOINT ["/usr/local/bin/wordpress.sh"]
 CMD ["php-fpm7.3", "-F"]

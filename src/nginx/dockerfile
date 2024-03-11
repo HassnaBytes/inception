@@ -5,10 +5,10 @@ RUN apt-get update &&  apt-get upgrade -y && \
     apt-get install -y vim curl openssl
 
 RUN mkdir -p /var/run/nginx
-
+RUN chmod 755 -R /var/www/html/
 COPY default.conf /etc/nginx/default.conf
 
-RUN chmod 755 /var/www/html  && \
+RUN chmod 755 -R /var/www/html  && \
     chown -R www-data:www-data /var/www/html
 
 EXPOSE 443
