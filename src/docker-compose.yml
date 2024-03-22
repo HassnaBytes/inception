@@ -3,53 +3,48 @@ version: '3'
 services:
   nginx:
     container_name: nginx
-    build:
-      context: ./nginx
-      dockerfile: /home/houattou/inception/nginx/dockerfile.nginx
+    build: ./nginx/
+    image: nginx:42
     ports:
-      - "443:443"
       - "80:80"
     volumes:
-      - ./nginx/default.conf:/etc/nginx/default.conf
-      - .:/var/www/html
-      -  wordpress_data:/var/www/html
+      - wp-data:/var/www/html/wordpress
+    restart: on-failure
     networks:
-      - my_network
-    depends_on:
-      - wordpress
-    restart: always
-
-  wordpress:
-    container_name: wordpress
-    build:
-      context: ./wordpress
-      dockerfile: /home/houattou/inception/wordpress/dockerfile
-    ports:
-      - "9000:9000"
-    volumes:
-      - wordpress_data:/var/www/html
-    networks:
-      - my_network
+      - inception
     depends_on:
       - mariadb
-    restart: always
-
+      - wordpress
 
   mariadb:
     container_name: mariadb
-    build:
-      context: ./mariadb
-      dockerfile: /home/houattou/inception/mariadb/dockerfile
+    build: ./mariadb/
+    image: mariadb:42
+    env_file: .env
+    restart: on-failure
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - db-data:/var/lib/mysql
     networks:
-      - my_network
-    restart: always
+      - inception
+    
+  wordpress:
+    container_name: wordpress
+    build: ./wordpress/
+    image: wordpress:42
+    env_file: .env
+    restart: on-failure
+    volumes:
+      - wp-data:/var/www/html/wordpress
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+      
+networks:
+  inception:
+    driver: bridge
 
 volumes:
-  wordpress_data:
-  mariadb_data:
+  db-data:
+  wp-data:
 
-networks:
-  my_network:
-    driver: bridge

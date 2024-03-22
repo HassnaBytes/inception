@@ -1,24 +1,16 @@
-FROM debian:buster
+FROM alpine:3.18
 
-# Set environment variables for database configuration
-ENV DATABASE_ROOT_PASSWORD=root
-ENV DATABASE_NAME=wordpress
-ENV DATABASE_USER=user_database
-ENV DATABASE_USER_PASSWORD=user_password
+RUN apk update && \
+	apk upgrade && \
+	apk add mariadb \
+			mariadb-client
 
-RUN apt-get -y update && apt-get -y upgrade
-RUN apt-get install -y 	mariadb-server \
-			vim \
-			procps
-
-COPY 50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-
-COPY script.sh /docker-entrypoint-initdb.d/
-
-RUN chmod +x /docker-entrypoint-initdb.d/script.sh
+ENV DB_ROOT_PASS=root
+ENV WP_DB_NAME=wordpress
+ENV WP_DB_USER=user
+ENV WP_DB_PASS=word
+COPY mariadb_conf.sh /tmp/mariadb_conf.sh
 
 EXPOSE 3306
 
-ENTRYPOINT ["/docker-entrypoint-initdb.d/script.sh"]
-
-CMD ["mysqld_safe"]
+ENTRYPOINT [ "sh", "/tmp/mariadb_conf.sh" ]
