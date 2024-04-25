@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
   nginx:
@@ -6,9 +6,9 @@ services:
     build: ./nginx/
     image: nginx:42
     ports:
-      - "80:80"
+      - "443:443"
     volumes:
-      - wp-data:/var/www/html/wordpress
+      - wordpress:/var/www/html/wordpress
     restart: on-failure
     networks:
       - inception
@@ -23,7 +23,7 @@ services:
     env_file: .env
     restart: on-failure
     volumes:
-      - db-data:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     networks:
       - inception
     
@@ -34,7 +34,7 @@ services:
     env_file: .env
     restart: on-failure
     volumes:
-      - wp-data:/var/www/html/wordpress
+      - wordpress:/var/www/html/wordpress
     networks:
       - inception
     depends_on:
@@ -45,6 +45,16 @@ networks:
     driver: bridge
 
 volumes:
-  db-data:
-  wp-data:
+  mariadb:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: /home/ouhassna/inception/mariadb
+  wordpress:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: /home/ouhassna/inception/wordpress
 
