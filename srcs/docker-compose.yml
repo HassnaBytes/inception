@@ -11,7 +11,7 @@ services:
       - wordpress:/var/www/html/wordpress
     restart: on-failure
     networks:
-      - inception
+      - inception  
     depends_on:
       - mariadb
       - wordpress
@@ -22,6 +22,10 @@ services:
     image: mariadb:42
     env_file: .env
     restart: on-failure
+    secrets:
+       - db_root_password
+       - db_password
+       - password_admin
     volumes:
       - mariadb:/var/lib/mysql
     networks:
@@ -37,12 +41,23 @@ services:
       - wordpress:/var/www/html/wordpress
     networks:
       - inception
+    secrets:
+      - db_password
+      - db_root_password
+      - password_admin
     depends_on:
       - mariadb
       
 networks:
   inception:
     driver: bridge
+secrets:
+   db_password:
+     file: db_password.txt
+   db_root_password:
+     file: db_root_password.txt
+   password_admin:
+    file: admin_password.txt 
 
 volumes:
   mariadb:

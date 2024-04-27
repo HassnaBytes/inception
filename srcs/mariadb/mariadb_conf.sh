@@ -3,6 +3,8 @@
 service mysql start;
 sleep 5;
 
+WP_DB_PASS=$(cat /run/secrets/db_password)
+
 if [ ! -d "/var/lib/mysql/${WP_DB_NAME}" ]
 then
     echo "creating database: ${WP_DB_NAME}"
