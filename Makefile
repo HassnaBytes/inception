@@ -1,6 +1,7 @@
-.PHONY: all up down clean
+.PHONY: all up down clean start
 
 DATA_PATH = /home/ouhassna/data
+
 # Default target
 all: up
 
@@ -10,34 +11,43 @@ up: setup
 
 # Stop and remove Docker containers
 down:
-	docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml down -v
+	docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml down
 
-#stop Docker containers
+# Stop Docker containers
 stop:
 	docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml stop
 
-#see containers that are running
+# See containers that are running
 status:
 	docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml ps
 
-#see images 
+# See images 
 images:
 	docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml images
 
-#restat containers:
+# Restart containers
 restart:
 	docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml restart
 
+# Clean up
 clean: down
-	sudo rm -rf $(DATA_PATH)
+		sudo rm -rf ${DATA_PATH}
 
-fclean:
-	docker system prune -f --volumes
-	docker volume rm src_wp-data srcs_db-data
+# Fully clean up
+fclean: 
+		docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml down -v
+		@if [ "$$(docker images -q | wc -l)" -gt 0 ]; then \
+			docker rmi -f $$(docker images -aq); \
+		fi
 
+# Setup directories
 setup:
-	sudo mkdir -p ${DATA_PATH}
-	sudo mkdir -p ${DATA_PATH}/mariadb-data
-	sudo mkdir -p ${DATA_PATH}/wordpress-data
+	@if [ ! -d $(DATA_PATH) ]; then \
+		mkdir -p ${DATA_PATH}; \
+	fi
 
+	@mkdir -p ${DATA_PATH}/mariadb-data
+	@mkdir -p ${DATA_PATH}/wordpress-data
 
+# Start Docker containers
+start: up

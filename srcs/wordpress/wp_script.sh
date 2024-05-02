@@ -7,7 +7,7 @@ chmod -R 755 /var/www/html
 #password:
 WP_DB_PASS=$(cat /run/secrets/db_password)
 WP_ADMIN_PASS=$(cat /run/secrets/db_root_password)
-WP_ADMIN_USER=$(cat /run/secrets/password_admin)
+WP_USER_PASS=$(cat /run/secrets/password_admin)
 
 if [ ! -f ${WP_PATH}/wp-config.php ]
 then
@@ -20,10 +20,6 @@ then
 
     chown -R www-data:www-data /var/www/html/wordpress
     chmod -R 755 /var/www/html/wordpress
-    chown -R www-data:www-data /var/www/html/wordpress/wp-content/uploads
-    chmod -R 755 /var/www/html/wordpress/wp-content/uploads
-    chmod -R 755 /var/www/html/wordpress/wp-content/uploads/2024
-    chmod -R 755 /var/www/html/wordpress/wp-content/uploads/2024/04
     echo "wordpress  finished installation."
   
 else

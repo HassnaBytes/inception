@@ -1,4 +1,3 @@
-version: '3.7'
 
 services:
   nginx:
@@ -65,11 +64,11 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: /home/ouhassna/inception/mariadb
+      device: /home/ouhassna/data/mariadb-data
   wordpress:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: /home/ouhassna/inception/wordpress
+      device: /home/ouhassna/data/wordpress-data
 

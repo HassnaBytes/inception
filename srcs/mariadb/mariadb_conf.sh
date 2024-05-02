@@ -1,7 +1,7 @@
 #!/bin/bash
 
 service mysql start;
-sleep 5;
+sleep 3;
 
 WP_DB_PASS=$(cat /run/secrets/db_password)
 
