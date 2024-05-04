@@ -2,45 +2,40 @@
 
 DATA_PATH = /home/ouhassna/data
 
-# Default target
 all: up
 
-# Start Docker containers
 up: setup
-	docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml up -d
+	docker-compose -f ./srcs/docker-compose.yml up -d
 
-# Stop and remove Docker containers
 down:
-	docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml down
+	docker-compose -f ./srcs/docker-compose.yml down
 
-# Stop Docker containers
 stop:
-	docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml stop
+	docker-compose -f ./srcs/docker-compose.yml stop
 
-# See containers that are running
+
 status:
-	docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml ps
+	docker-compose -f ./srcs/docker-compose.yml ps
 
-# See images 
+ 
 images:
-	docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml images
+	docker-compose -f ./srcs/docker-compose.yml images
 
-# Restart containers
+
 restart:
-	docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml restart
+	docker-compose -f ./srcs/docker-compose.yml restart
 
-# Clean up
+
 clean: down
-		sudo rm -rf ${DATA_PATH}
+		@sudo rm -rf ${DATA_PATH}
 
-# Fully clean up
 fclean: 
-		docker-compose -f /home/ouhassna/inception/srcs/docker-compose.yml down -v
+		docker-compose -f ./srcs/docker-compose.yml down -v
 		@if [ "$$(docker images -q | wc -l)" -gt 0 ]; then \
 			docker rmi -f $$(docker images -aq); \
 		fi
+	 	@sudo rm -rf ${DATA_PATH}
 
-# Setup directories
 setup:
 	@if [ ! -d $(DATA_PATH) ]; then \
 		mkdir -p ${DATA_PATH}; \
@@ -49,5 +44,4 @@ setup:
 	@mkdir -p ${DATA_PATH}/mariadb-data
 	@mkdir -p ${DATA_PATH}/wordpress-data
 
-# Start Docker containers
 start: up

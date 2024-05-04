@@ -5,8 +5,8 @@ RUN apk update && \
     apk add nginx \
             openssl
 
-COPY script.sh /
-COPY default.conf /etc/nginx/http.d/default.conf
+COPY ./tools/script.sh /
+COPY ./conf/default.conf /etc/nginx/http.d/default.conf
 
 EXPOSE 443
 
