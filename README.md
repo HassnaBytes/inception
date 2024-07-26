@@ -71,3 +71,55 @@ Docker volumes are used for persisting data and sharing it between the host and 
 Volumes are located in `/home/login/data` on the host machine.
 
 ### 8. Project Structure
+.
+├── Makefile
+├── secrets/
+│   ├── credentials.txt
+│   ├── db_password.txt
+│   └── db_root_password.txt
+└── srcs/
+├── docker-compose.yml
+├── .env
+└── requirements/
+├── mariadb/
+│   ├── conf/
+│   ├── Dockerfile
+│   └── tools/
+├── nginx/
+│   ├── conf/
+│   ├── Dockerfile
+│   └── tools/
+└── wordpress/
+├── conf/
+├── Dockerfile
+└── tools/
+
+## Setup and Usage
+1. Clone the repository
+2. Navigate to the project directory
+3. Run `make` to build and start the containers
+4. Access the WordPress site at https://login.42.fr
+
+Makefile commands:
+- `make`: Build and start the containers
+- `make clean`: Stop and remove containers, networks, and volumes
+- `make fclean`: Perform clean and remove all built Docker images
+
+## Challenges and Learning Outcomes
+- Understanding the intricacies of Docker networking and inter-container communication
+- Implementing secure TLS configuration in NGINX
+- Managing sensitive information securely using environment variables
+- Debugging issues related to container connectivity and volume permissions
+
+Key learnings:
+- Docker container orchestration with Docker Compose
+- Proper separation of concerns in a multi-service architecture
+- Importance of security in containerized environments
+- Best practices for Dockerfile creation and image building
+
+## Additional Resources
+- [Docker Documentation](https://docs.docker.com/)
+- [Docker Compose Documentation](https://docs.docker.com/compose/)
+- [NGINX Documentation](https://nginx.org/en/docs/)
+- [WordPress Docs](https://wordpress.org/support/)
+- [MariaDB Documentation](https://mariadb.com/kb/en/documentation/)![docker_](https://github.com/user-attachments/assets/2ed7ddfe-aaf8-4277-939f-43bd33770d28)
